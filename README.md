@@ -6,7 +6,8 @@ Source code from https://github.com/yandex-cloud/examples/tree/master/packer-ans
 ```
 sudo apt update
 sudo apt install git jq python3-pip
-sudo pip3 install ansible==2.6.17
+sudo pip3 install ansible
+ansible-galaxy collection install ansible.windows
 ```
 
 Установка Packer
