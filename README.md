@@ -42,3 +42,18 @@ yc resource-manager folder add-access-binding <имя_каталога> --role a
     "service_account_key_file": "service-account.json",
     "password": "Пароль для Windows",
 ```
+
+При сборке образа сначала выполняется скрипты, описанные в user-data:
+```
+#ps1
+net user Administrator {{user `password`}}
+ls \"C:\\Program Files\\Cloudbase Solutions\\Cloudbase-Init\\LocalScripts\" | rm
+Remove-Item -Path WSMan:\\Localhost\\listener\\listener* -Recurse
+Remove-Item -Path Cert:\\LocalMachine\\My\\*
+$DnsName = Invoke-RestMethod -Headers @{\"Metadata-Flavor\"=\"Google\"} \"http://169.254.169.254/computeMetadata/v1/instance/hostname\"
+$HostName = Invoke-RestMethod -Headers @{\"Metadata-Flavor\"=\"Google\"} \"http://169.254.169.254/computeMetadata/v1/instance/name\"
+$Certificate = New-SelfSignedCertificate -CertStoreLocation Cert:\\LocalMachine\\My -DnsName $DnsName -Subject $HostName
+New-Item -Path WSMan:\\LocalHost\\Listener -Transport HTTP -Address * -Force
+New-Item -Path WSMan:\\LocalHost\\Listener -Transport HTTPS -Address * -Force -HostName $HostName -CertificateThumbPrint $Certificate.Thumbprint
+& netsh advfirewall firewall add rule name=\"WINRM-HTTPS-In-TCP\" protocol=TCP dir=in localport=5986 action=allow profile=any
+```
