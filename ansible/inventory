@@ -7,4 +7,4 @@ ansible_connection=winrm
 ansible_winrm_transport=basic
 ansible_user=Administrator
 ansible_password=
-ansible_winrm_server_cert_validation: ignore
+ansible_winrm_server_cert_validation=ignore
