@@ -48,7 +48,7 @@
     {
       "type": "powershell",
       "scripts": [
-          "C:\\Windows\\Setup\\Scripts\\ConfigureRemotingForAnsible.ps1"
+          "{{template_dir}}/ConfigureRemotingForAnsible.ps1"
       ]
     },
 {
