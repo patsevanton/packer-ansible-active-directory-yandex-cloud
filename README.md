@@ -28,7 +28,7 @@ yc init
 
 Clone repo
 ```
-https://github.com/patsevanton/packer-ansible-active-directory-yandex-cloud.git
+git clone https://github.com/patsevanton/packer-ansible-active-directory-yandex-cloud.git
 cd packer-ansible-active-directory-yandex-cloud
 ```
 
