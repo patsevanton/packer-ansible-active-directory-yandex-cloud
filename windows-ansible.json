@@ -1,19 +1,18 @@
 {
   "variables": {
-    "playbook": "exmb_prereq.yml",
     "folder_id": "",
     "service_account_key_file": "service-account.json",
     "password": "",
     "source_image_family": "windows-2019-gvlk",
     "platform_id": "standard-v2",
-    "instance_name": "exmbprereq",
+    "instance_name": "windows-active-directory",
     "instance_cores": "4",
     "instance_mem_gb": "8",
     "disk_size_gb": "50",
     "disk_type": "network-ssd",
     "use_ipv4_nat": "true",
     "subnet_id": "",
-    "image_name": "exmbprereq"
+    "image_name": "windows-active-directory"
   },
   "builders": [
     {
