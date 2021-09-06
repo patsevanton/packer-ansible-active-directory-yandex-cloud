@@ -110,7 +110,6 @@ ansible windows -i ansible/inventory -m win_ping
        	"--tags",
        	"install",
         "--extra-vars", "ansible_port=5986 ansible_connection=winrm ansible_winrm_transport=basic ansible_user=Administrator ansible_password={{user `password`}} ansible_winrm_server_cert_validation=ignore"
-       ],
-       "ansible_env_vars": ["ANSIBLE_SSH_ARGS='-o ControlPersist=10m'"]
+       ]
    },
 ```
