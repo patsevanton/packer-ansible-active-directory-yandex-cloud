@@ -95,6 +95,11 @@ For debug:
 },
 ```
 
+Отредатировать файл ansible/inventory. Проверить win_ping.
+
+```
+ansible windows -i ansible/inventory -m win_ping
+```
 
 После исправления ошибок протестировать
 ```
