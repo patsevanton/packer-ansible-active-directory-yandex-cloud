@@ -9,7 +9,7 @@ sudo apt install git jq python3-pip -y
 sudo pip3 install ansible
 ansible-galaxy collection install ansible.windows
 ansible-galaxy install justin_p.pdc
-sudo pip3 install pywinrm pypsrp
+sudo pip3 install pywinrm pypsrp xmltodict
 ```
 
 Установка Packer
