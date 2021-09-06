@@ -20,10 +20,18 @@ https://cloud.yandex.com/en/docs/cli/quickstart#install
 ```
 curl https://storage.yandexcloud.net/yandexcloud-yc/install.sh | bash
 ```
+
 Инициализация Yandex.Cloud CLI
 ```
 yc init
 ```
+
+Clone repo
+```
+https://github.com/patsevanton/packer-ansible-active-directory-yandex-cloud.git
+cd packer-ansible-active-directory-yandex-cloud
+```
+
 Создайте сервисный аккаунт и передайте его идентификатор в переменную окружения, выполнив команды:
 ```
 yc iam service-account create --name <имя пользователя>
