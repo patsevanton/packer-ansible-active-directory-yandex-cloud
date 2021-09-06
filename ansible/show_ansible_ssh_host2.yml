@@ -1,0 +1,7 @@
+---
+- hosts: all
+  tasks:
+    - name: Show play_hosts
+      local_action:
+        module: debug: msg="play_hosts={{play_hosts}}"
+      run_once: true
