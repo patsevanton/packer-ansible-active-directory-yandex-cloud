@@ -1,0 +1,10 @@
+---
+- name: site playbook
+  hosts: all
+  tasks:
+    - name: debug ansible_host
+      debug: var=ansible_host
+    - name: local_action debug ansible_ssh_host
+      local_action: debug var=ansible_ssh_host
+    - name: local_action debug ansible_host
+      local_action: debug var=ansible_host
