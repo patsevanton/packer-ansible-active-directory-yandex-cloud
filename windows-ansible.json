@@ -46,6 +46,17 @@
       "source": "{{template_dir}}/setup_complete/",
       "destination": "C:\\Windows\\Setup\\Scripts\\"
     },
+    {
+      "type": "file",
+      "source": "https://github.com/ansible/ansible/blob/devel/examples/scripts/ConfigureRemotingForAnsible.ps1",
+      "destination": "C:\\Windows\\Setup\\Scripts\\ConfigureRemotingForAnsible.ps1"
+    },
+    {
+      "type": "powershell",
+      "scripts": [
+          "C:\\Windows\\Setup\\Scripts\\ConfigureRemotingForAnsible.ps1"
+      ]
+    },
    {
        "type": "ansible",
        "playbook_file": "{{template_dir}}/ansible/packer_active_directory.yml",
