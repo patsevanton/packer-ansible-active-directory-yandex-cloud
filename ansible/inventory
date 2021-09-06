@@ -2,7 +2,7 @@
 windows.local ansible_host=
 
 [windows:vars]
-ansible_port=5985
+ansible_port=5986
 ansible_connection=winrm
 ansible_winrm_transport=basic
 ansible_user=Administrator
