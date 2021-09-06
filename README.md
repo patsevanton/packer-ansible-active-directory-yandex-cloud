@@ -89,3 +89,18 @@ For debug:
     ]
 },
 ```
+
+
+После исправления ошибок протестировать
+```
+   {
+       "type": "ansible",
+       "playbook_file": "{{template_dir}}/ansible/packer_active_directory.yml",
+       "extra_arguments": [
+       	"--tags",
+       	"install",
+        "--extra-vars", "ansible_shell_type=powershell ansible_shell_executable=None ansible_python_interpreter=/usr/bin/python"
+       ],
+       "ansible_env_vars": ["ANSIBLE_SSH_ARGS='-o ControlPersist=10m'"]
+   },
+```
