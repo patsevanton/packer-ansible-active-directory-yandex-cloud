@@ -51,12 +51,15 @@
           "{{template_dir}}/ConfigureRemotingForAnsible.ps1"
       ]
     },
-{
-    "type": "shell",
-    "inline": [
-        "sleep 9999999"
-    ]
-},
+   {
+       "type": "ansible",
+       "playbook_file": "{{template_dir}}/ansible/packer_active_directory.yml",
+       "extra_arguments": [
+       	"--tags",
+       	"install",
+        "--extra-vars", "ansible_port=5986 ansible_connection=winrm ansible_winrm_transport=basic ansible_user=Administrator ansible_password={{user `password`}} ansible_winrm_server_cert_validation=ignore"
+       ]
+   },
     {
       "type": "windows-restart"
     },
