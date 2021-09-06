@@ -32,6 +32,11 @@ git clone https://github.com/patsevanton/packer-ansible-active-directory-yandex-
 cd packer-ansible-active-directory-yandex-cloud
 ```
 
+Download ConfigureRemotingForAnsible.ps1
+```
+wget https://raw.githubusercontent.com/ansible/ansible/devel/examples/scripts/ConfigureRemotingForAnsible.ps1
+```
+
 Создайте сервисный аккаунт и передайте его идентификатор в переменную окружения, выполнив команды:
 ```
 yc iam service-account create --name <имя пользователя>
@@ -69,7 +74,7 @@ New-Item -Path WSMan:\\LocalHost\\Listener -Transport HTTPS -Address * -Force -H
 ```
 
 
-Download to git repo https://raw.githubusercontent.com/ansible/ansible/devel/examples/scripts/ConfigureRemotingForAnsible.ps1
+
 Add
 ```
     {
