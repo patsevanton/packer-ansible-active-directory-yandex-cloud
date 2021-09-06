@@ -53,6 +53,7 @@
     },
    {
        "type": "ansible",
+       "use_proxy": false,
        "playbook_file": "{{template_dir}}/ansible/packer_active_directory.yml",
        "extra_arguments": [
        	"--tags",
