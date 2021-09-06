@@ -59,3 +59,25 @@ New-Item -Path WSMan:\\LocalHost\\Listener -Transport HTTP -Address * -Force
 New-Item -Path WSMan:\\LocalHost\\Listener -Transport HTTPS -Address * -Force -HostName $HostName -CertificateThumbPrint $Certificate.Thumbprint
 & netsh advfirewall firewall add rule name=\"WINRM-HTTPS-In-TCP\" protocol=TCP dir=in localport=5986 action=allow profile=any
 ```
+
+
+Download to git repo https://raw.githubusercontent.com/ansible/ansible/devel/examples/scripts/ConfigureRemotingForAnsible.ps1
+Add
+```
+    {
+      "type": "powershell",
+      "scripts": [
+          "{{template_dir}}/ConfigureRemotingForAnsible.ps1"
+      ]
+    },
+```
+
+For debug:
+```
+{
+    "type": "shell",
+    "inline": [
+        "sleep 9999999"
+    ]
+},
+```
