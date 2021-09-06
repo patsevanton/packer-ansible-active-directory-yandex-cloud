@@ -5,7 +5,7 @@ Source code from https://github.com/yandex-cloud/examples/tree/master/packer-ans
 Установка необходимых пакетов
 ```
 sudo apt update
-sudo apt install git jq python3-pip
+sudo apt install git jq python3-pip -y
 sudo pip3 install ansible
 ansible-galaxy collection install ansible.windows
 ansible-galaxy install justin_p.pdc
