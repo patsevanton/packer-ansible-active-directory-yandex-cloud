@@ -32,7 +32,7 @@ git clone https://github.com/patsevanton/packer-ansible-active-directory-yandex-
 cd packer-ansible-active-directory-yandex-cloud
 ```
 
-Download ConfigureRemotingForAnsible.ps1
+Скачиваем ConfigureRemotingForAnsible.ps1
 ```
 wget https://raw.githubusercontent.com/ansible/ansible/devel/examples/scripts/ConfigureRemotingForAnsible.ps1
 ```
@@ -44,7 +44,7 @@ yc iam key create --service-account-name <имя пользователя> -o se
 SERVICE_ACCOUNT_ID=$(yc iam service-account get --name <имя пользователя> --format json | jq -r .id)
 ```
 
-В документации к Yandex Cloud folder_id описывается как <имя_каталога>.
+В документации к Yandex Cloud параметр folder_id описывается как <имя_каталога>.
 
 Получите folder_id из `yc config list`
 
