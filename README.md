@@ -44,16 +44,18 @@ yc iam key create --service-account-name <имя пользователя> -o se
 SERVICE_ACCOUNT_ID=$(yc iam service-account get --name <имя пользователя> --format json | jq -r .id)
 ```
 
-Получите folder_id (<имя_каталога>) из `yc config list`
+В документации к Yandex Cloud folder_id описывается как <имя_каталога>.
+
+Получите folder_id из `yc config list`
 
 Назначьте сервисному аккаунту роль admin в каталоге, где будут выполняться операции:
 ```
-yc resource-manager folder add-access-binding <имя_каталога> --role admin --subject serviceAccount:$SERVICE_ACCOUNT_ID
+yc resource-manager folder add-access-binding <folder_id> --role admin --subject serviceAccount:$SERVICE_ACCOUNT_ID
 ```
 
 Заполните файл windows-ansible.json
 ```
-    "folder_id": "<ваш folder_id/имя_каталога>",
+    "folder_id": "folder_id",
     "service_account_key_file": "service-account.json",
     "password": "Пароль для Windows",
 ```
