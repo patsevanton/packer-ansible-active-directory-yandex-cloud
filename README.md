@@ -108,23 +108,14 @@ For debug:
 ansible windows -i ansible/inventory -m win_ping
 ```
 
-После исправления ошибок протестировать
-```
-   {
-       "type": "ansible",
-       "playbook_file": "{{template_dir}}/ansible/packer_active_directory.yml",
-       "extra_arguments": [
-       	"--tags",
-       	"install",
-        "--extra-vars", "ansible_port=5986 ansible_connection=winrm ansible_winrm_transport=basic ansible_user=Administrator ansible_password={{user `password`}} ansible_winrm_server_cert_validation=ignore"
-       ]
-   },
-```
-
-
 Ошибки:
 
 Если не запустить ConfigureRemotingForAnsible.ps1 на Windows, то будет такая ошибка
 ```
 basic: the specified credentials were rejected by the server
+```
+
+Если забыли установить "use_proxy" в false, то будет такая ошибка
+```
+basic: HTTPSConnectionPool(host=''127.0.0.1'', port=5986): Max retries exceeded with url: /wsman (Caused by NewConnectionError(''<urllib3.connection.VerifiedHTTPSConnection object at 0x7f555c2d07c0>: Failed to establish a new connection: [Errno 111] Connection refused''))
 ```
