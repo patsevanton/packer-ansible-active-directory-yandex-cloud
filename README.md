@@ -55,9 +55,9 @@ yc resource-manager folder add-access-binding <folder_id> --role admin --subject
 
 Заполните файл windows-ansible.json
 ```
-    "folder_id": "folder_id",
+    "folder_id": "<folder_id>",
     "service_account_key_file": "service-account.json",
-    "password": "Пароль для Windows",
+    "password": "<Пароль для Windows>",
 ```
 
 Запускаем сборку образа
@@ -80,19 +80,7 @@ New-Item -Path WSMan:\\LocalHost\\Listener -Transport HTTPS -Address * -Force -H
 & netsh advfirewall firewall add rule name=\"WINRM-HTTPS-In-TCP\" protocol=TCP dir=in localport=5986 action=allow profile=any
 ```
 
-
-
-Add
-```
-    {
-      "type": "powershell",
-      "scripts": [
-          "{{template_dir}}/ConfigureRemotingForAnsible.ps1"
-      ]
-    },
-```
-
-For debug:
+Для отладки добавляем конструкцию, подключаемся по RDP и пробуем подключится по ansible напрямую.
 ```
 {
     "type": "shell",
