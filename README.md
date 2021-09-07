@@ -11,6 +11,8 @@ ansible-galaxy collection install ansible.windows
 ansible-galaxy install justin_p.pdc
 ```
 
+Для настройки Primary Domain Controller и Active Directory на Windows Server используется ansible роль https://github.com/justin-p/ansible-role-pdc
+
 Установка Packer.
 Необходимо установить Packer по инструкции с официального сайта https://learn.hashicorp.com/tutorials/packer/get-started-install-cli
 
