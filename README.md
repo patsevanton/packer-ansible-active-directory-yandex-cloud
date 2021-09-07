@@ -12,8 +12,8 @@ ansible-galaxy install justin_p.pdc
 sudo pip3 install pywinrm
 ```
 
-Установка Packer
-Необходимо установить packer по инструкции с официального сайта https://learn.hashicorp.com/tutorials/packer/get-started-install-cli
+Установка Packer.
+Необходимо установить Packer по инструкции с официального сайта https://learn.hashicorp.com/tutorials/packer/get-started-install-cli
 
 Установка Yandex.Cloud CLI
 https://cloud.yandex.com/en/docs/cli/quickstart#install
