@@ -58,6 +58,11 @@ yc resource-manager folder add-access-binding <имя_каталога> --role a
     "password": "Пароль для Windows",
 ```
 
+Запускаем сборку образа
+```
+packer build windows-ansible.json
+```
+
 При сборке образа сначала выполняется скрипты, описанные в user-data:
 ```
 #ps1
