@@ -120,3 +120,11 @@ ansible windows -i ansible/inventory -m win_ping
        ]
    },
 ```
+
+
+Ошибки:
+
+Если не запустить ConfigureRemotingForAnsible.ps1 на Windows, то будет такая ошибка
+```
+basic: the specified credentials were rejected by the server
+```
