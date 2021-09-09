@@ -1,0 +1,23 @@
+---
+- hosts: all
+  tasks:
+    - name: Run basic PowerShell script
+      ansible.windows.win_powershell:
+        script: |
+          echo "Hello World"
+      register: hello_world
+    - debug: var=hello_world.stdout
+
+    - name: Install IIS (Web-Server only)
+      ansible.windows.win_feature:
+        name: Web-Server
+        state: present
+      register: install_iis
+    - debug: var=install_iis.stdout
+    
+    - name: Create zabbix dir
+      win_file:
+        path: 'C:\Zabbix'
+        state: directory
+      register: zabbix_dir
+    - debug: var=zabbix_dir.stdout
