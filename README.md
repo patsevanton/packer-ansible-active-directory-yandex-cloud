@@ -6,7 +6,7 @@ Source code from https://github.com/yandex-cloud/examples/tree/master/packer-ans
 ```
 sudo apt update
 sudo apt install git jq python3-pip -y
-sudo pip3 install ansible pywinrm
+sudo pip3 install ansible pywinrm pypsrp
 ansible-galaxy collection install ansible.windows
 ansible-galaxy install justin_p.pdc
 ```
