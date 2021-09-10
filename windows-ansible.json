@@ -48,11 +48,7 @@
     },
     {
       "type": "shell-local",
-      "execute_command": [
-        "/bin/bash",
-        "-c",
-        "Download_ConfigureRemotingForAnsible.ps1.sh"
-      ]
+      "script": "Download_ConfigureRemotingForAnsible.ps1.sh"
     },
     {
       "type": "powershell",
