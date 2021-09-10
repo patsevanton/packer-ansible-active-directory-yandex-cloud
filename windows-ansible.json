@@ -54,7 +54,7 @@
     },
    {
        "type": "ansible",
-       "winrm_username": "{{user `win_username`}}",
+       "user": "{{user `win_username`}}",
        "use_proxy": false,
        "playbook_file": "{{template_dir}}/ansible/playbook3.yml",
        "extra_arguments": [
