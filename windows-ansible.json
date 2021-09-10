@@ -47,12 +47,6 @@
       "destination": "C:\\Windows\\Setup\\Scripts\\"
     },
     {
-      "type": "file",
-      "source": "https://raw.githubusercontent.com/ansible/ansible/devel/examples/scripts/ConfigureRemotingForAnsible.ps1",
-      "destination": "ConfigureRemotingForAnsible.ps1",
-      "direction" : "download"
-    },
-    {
       "type": "powershell",
       "scripts": [
           "{{template_dir}}/ConfigureRemotingForAnsible.ps1"
