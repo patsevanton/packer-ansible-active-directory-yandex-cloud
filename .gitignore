@@ -1,0 +1,3 @@
+ConfigureRemotingForAnsible.ps1
+service-account.json
+yc_yandex.pem
