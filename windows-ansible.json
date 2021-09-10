@@ -48,11 +48,10 @@
     },
     {
       "type": "shell-local",
-      "url_script": "https://raw.githubusercontent.com/ansible/ansible/devel/examples/scripts/ConfigureRemotingForAnsible.ps1",
       "execute_command": [
         "/bin/bash",
         "-c",
-        "curl {{.Url_script}} --output ConfigureRemotingForAnsible.ps1"
+        "Download_ConfigureRemotingForAnsible.ps1.sh"
       ]
     },
     {
