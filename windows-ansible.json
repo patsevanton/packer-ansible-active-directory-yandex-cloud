@@ -52,7 +52,7 @@
       "execute_command": [
         "/bin/bash",
         "-c",
-        "curl url_script --output ConfigureRemotingForAnsible.ps1"
+        "curl {{.Url_script}} --output ConfigureRemotingForAnsible.ps1"
       ]
     },
     {
