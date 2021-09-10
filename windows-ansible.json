@@ -58,9 +58,7 @@
        "use_proxy": false,
        "playbook_file": "{{template_dir}}/ansible/playbook2.yml",
        "extra_arguments": [
-        "-vvvvvv",
-       	"--tags",
-       	"install"
+        "-vvvvvv"
        ]
    },
     {
