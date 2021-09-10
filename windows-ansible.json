@@ -12,7 +12,8 @@
     "disk_type": "network-ssd",
     "use_ipv4_nat": "true",
     "subnet_id": "",
-    "image_name": "windows-active-directory"
+    "image_name": "windows-active-directory",
+    "win_username": "Administrator"
   },
   "builders": [
     {
@@ -32,7 +33,7 @@
         "user-data": "#ps1\nnet user Administrator {{user `password`}}\nls \"C:\\Program Files\\Cloudbase Solutions\\Cloudbase-Init\\LocalScripts\" | rm\nRemove-Item -Path WSMan:\\Localhost\\listener\\listener* -Recurse\nRemove-Item -Path Cert:\\LocalMachine\\My\\*\n$DnsName = Invoke-RestMethod -Headers @{\"Metadata-Flavor\"=\"Google\"} \"http://169.254.169.254/computeMetadata/v1/instance/hostname\"\n$HostName = Invoke-RestMethod -Headers @{\"Metadata-Flavor\"=\"Google\"} \"http://169.254.169.254/computeMetadata/v1/instance/name\"\n$Certificate = New-SelfSignedCertificate -CertStoreLocation Cert:\\LocalMachine\\My -DnsName $DnsName -Subject $HostName\nNew-Item -Path WSMan:\\LocalHost\\Listener -Transport HTTP -Address * -Force\nNew-Item -Path WSMan:\\LocalHost\\Listener -Transport HTTPS -Address * -Force -HostName $HostName -CertificateThumbPrint $Certificate.Thumbprint\n& netsh advfirewall firewall add rule name=\"WINRM-HTTPS-In-TCP\" protocol=TCP dir=in localport=5986 action=allow profile=any"
       },
       "communicator": "winrm",
-      "winrm_username": "Administrator",
+      "winrm_username": "{{user `win_username`}}",
       "winrm_password": "{{user `password`}}",
       "winrm_use_ssl": "true",
       "winrm_insecure": "true",
@@ -53,7 +54,7 @@
     },
    {
        "type": "ansible",
-       "inventory_directory": "./ansible",
+       "winrm_username": "{{user `win_username`}}",
        "use_proxy": false,
        "playbook_file": "{{template_dir}}/ansible/playbook3.yml",
        "extra_arguments": [
