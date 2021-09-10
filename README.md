@@ -108,3 +108,8 @@ basic: the specified credentials were rejected by the server
 ```
 basic: HTTPSConnectionPool(host=''127.0.0.1'', port=5986): Max retries exceeded with url: /wsman (Caused by NewConnectionError(''<urllib3.connection.VerifiedHTTPSConnection object at 0x7f555c2d07c0>: Failed to establish a new connection: [Errno 111] Connection refused''))
 ```
+
+Временный ansible inventory с именем /tmp/packer-provisioner-ansiblexxxx будет иметь вот такой вид:
+```
+default ansible_host=xxx.xxx.xxx.xxx ansible_connection=winrm ansible_winrm_transport=basic ansible_shell_type=powershell ansible_user=apatsev ansible_port=5986
+```
