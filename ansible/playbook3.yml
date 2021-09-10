@@ -3,3 +3,5 @@
   tasks:
     - name: Run basic PowerShell script
       ansible.windows.win_whoami:
+      register: win_whoami
+    - debug: var=win_whoami.stdout

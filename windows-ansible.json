@@ -55,7 +55,7 @@
        "type": "ansible",
        "inventory_directory": "./ansible",
        "use_proxy": false,
-       "playbook_file": "{{template_dir}}/ansible/packer_active_directory.yml",
+       "playbook_file": "{{template_dir}}/ansible/playbook3.yml",
        "extra_arguments": [
         "-vvvvvv",
        	"--tags",
