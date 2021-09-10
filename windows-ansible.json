@@ -60,9 +60,7 @@
        "extra_arguments": [
         "-vvvvvv",
        	"--tags",
-       	"install",
-        "--extra-vars",
-        "ansible_password={{user `password`}}"
+       	"install"
        ]
    },
     {
