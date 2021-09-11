@@ -57,7 +57,6 @@
        "playbook_file": "{{template_dir}}/ansible/playbook3.yml",
        "ansible_env_vars": [ "ANSIBLE_CONFIG=ansible/ansible.cfg" ],
        "extra_arguments": [
-        "-v",
         "-e",
         "ansible_winrm_server_cert_validation=ignore"
        ]
