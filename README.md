@@ -29,6 +29,10 @@ https://cloud.yandex.com/en/docs/cli/quickstart#install
 curl https://storage.yandexcloud.net/yandexcloud-yc/install.sh | bash
 ```
 
+```
+source ~/.bashrc
+```
+
 Инициализация Yandex.Cloud CLI
 ```
 yc init
