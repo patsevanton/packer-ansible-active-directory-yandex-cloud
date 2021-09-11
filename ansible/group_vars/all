@@ -1,2 +1,0 @@
----
-ansible_winrm_server_cert_validation: ignore
