@@ -122,6 +122,14 @@ basic: the specified credentials were rejected by the server
 basic: HTTPSConnectionPool(host=''127.0.0.1'', port=5986): Max retries exceeded with url: /wsman (Caused by NewConnectionError(''<urllib3.connection.VerifiedHTTPSConnection object at 0x7f555c2d07c0>: Failed to establish a new connection: [Errno 111] Connection refused''))
 ```
 
+Если в таске `Ensure the local user Administrator has the password specified for TEST\Administrator` будет ошибка 
+```
+requests.exceptions.HTTPError: 401 Client Error:  for url: https://xxx:5986/wsman
+...
+winrm.exceptions.InvalidCredentialsError: the specified credentials were rejected by the server
+```
+То вы забыли синхронизировать пароли в переменных `pdc_administrator_password` и `ansible_password`
+
 Временный ansible inventory с именем /tmp/packer-provisioner-ansiblexxxx будет иметь вот такой вид:
 ```
 default ansible_host=xxx.xxx.xxx.xxx ansible_connection=winrm ansible_winrm_transport=basic ansible_shell_type=powershell ansible_user=apatsev ansible_port=5986
