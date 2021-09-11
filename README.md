@@ -68,9 +68,11 @@ yc resource-manager folder add-access-binding <folder_id> --role admin --subject
     "password": "<Пароль для Windows>",
 ```
 
+Заполняем credentials.json
+
 Запускаем сборку образа
 ```
-packer build windows-ansible.json
+packer build -var-file credentials.json windows-ansible.json 
 ```
 
 При сборке образа сначала выполняется скрипты, описанные в user-data:
