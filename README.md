@@ -29,6 +29,7 @@ https://cloud.yandex.com/en/docs/cli/quickstart#install
 curl https://storage.yandexcloud.net/yandexcloud-yc/install.sh | bash
 ```
 
+Загружаем обновленные настройки .bashrc без выхода из системы
 ```
 source ~/.bashrc
 ```
