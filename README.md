@@ -100,10 +100,10 @@ New-Item -Path WSMan:\\LocalHost\\Listener -Transport HTTPS -Address * -Force -H
 },
 ```
 
-Отредатировать файл ansible/inventory. Проверить win_ping.
+Отредатируем файл ansible/inventory. Проверим win_ping.
 
 ```
-ansible windows -i ansible/inventory -m win_ping
+ansible windows -i ansible/test-inventory -m win_ping
 ```
 
 Ошибки:
