@@ -6,7 +6,7 @@
     "instance_name": "windows-active-directory",
     "instance_cores": "4",
     "instance_mem_gb": "8",
-    "disk_size_gb": "40",
+    "disk_size_gb": "50",
     "disk_type": "network-ssd",
     "use_ipv4_nat": "true",
     "subnet_id": "",
