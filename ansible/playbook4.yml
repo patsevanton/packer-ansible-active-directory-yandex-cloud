@@ -8,4 +8,4 @@
         path: 'C:\Users\Administrator\test'
         state: directory
       register: test_dir
-    - debug: var=test_dir.stdout
+    - debug: var=test_dir

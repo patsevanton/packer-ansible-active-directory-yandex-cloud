@@ -6,18 +6,18 @@
         script: |
           echo "Hello World"
       register: hello_world
-    - debug: var=hello_world.stdout
+    - debug: var=hello_world
 
     - name: Install IIS (Web-Server only)
       ansible.windows.win_feature:
         name: Web-Server
         state: present
       register: install_iis
-    - debug: var=install_iis.stdout
+    - debug: var=install_iis
     
     - name: Create zabbix dir
-      win_file:
+      ansible.windows.win_file:
         path: 'C:\Zabbix'
         state: directory
       register: zabbix_dir
-    - debug: var=zabbix_dir.stdout
+    - debug: var=zabbix_dir
