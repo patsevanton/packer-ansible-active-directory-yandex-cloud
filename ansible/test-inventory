@@ -1,5 +1,5 @@
 [windows]
-windows.local ansible_host=
+testad ansible_host=
 
 [windows:vars]
 ansible_port=5986
