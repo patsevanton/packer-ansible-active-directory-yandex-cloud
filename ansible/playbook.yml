@@ -4,6 +4,16 @@
     ansible_winrm_server_cert_validation: ignore
     pdc_administrator_password: ansible_password
   pre_tasks:
+    - name: Firewall rule to allow RDP on TCP port 3389
+      community.windows.win_firewall_rule:
+        name: Remote Desktop
+        localport: 3389
+        action: allow
+        direction: in
+        protocol: tcp
+        profiles: [Domain, Public, Private]
+        state: present
+        enabled: yes
     - name: Install Remote-Desktop-Services with sub features and management tools
       ansible.windows.win_feature:
         name: Remote-Desktop-Services
