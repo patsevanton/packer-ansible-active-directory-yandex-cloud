@@ -30,7 +30,7 @@
     - name: Wait for the reboot to complete if there was a change.
       wait_for_connection:
         sleep: 5
-        delay: 20
+        delay: 30
         timeout: 300
       when: win_reboot is changed
 
@@ -38,6 +38,14 @@
       ansible.windows.win_domain:
         dns_domain_name: 'demo.lab'
         safe_mode_password: '{{ ansible_password }}'
+      register: create_domain
+
+    - name: Wait for the reboot to complete if there was a change.
+      wait_for_connection:
+        sleep: 5
+        delay: 30
+        timeout: 300
+      when: create_domain is changed
 
     - name: Add Terminal Server License Servers to Network Service
       ansible.windows.win_shell: |
@@ -74,6 +82,6 @@
     - name: Wait for the reboot to complete if there was a change.
       wait_for_connection:
         sleep: 5
-        delay: 20
+        delay: 30
         timeout: 300
       when: win_reboot is changed
