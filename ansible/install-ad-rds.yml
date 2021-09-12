@@ -4,6 +4,8 @@
   vars:
     ansible_winrm_server_cert_validation: ignore
     pdc_administrator_password: "{{ ansible_password }}"
+    pdc_domain: demo.lab
+    pdc_netbios: DEMO
 
   tasks:
     - name: Print ansible_password
@@ -36,9 +38,17 @@
 
     - name: Create Domain
       ansible.windows.win_domain:
-        dns_domain_name: 'demo.lab'
-        safe_mode_password: '{{ ansible_password }}'
+        dns_domain_name: "{{ pdc_domain }}"
+        safe_mode_password: "{{ ansible_password }}"
       register: create_domain
+
+    - name: Ensure the UserPrincipalName of {{ pdc_netbios }}\{{ ansible_user }} is set to {{ ansible_user }}@{{ pdc_domain }}
+      win_domain_user:
+        name: "{{ ansible_user }}"
+        upn: "{{ ansible_user }}@{{ pdc_domain }}"
+        domain_username: "{{ pdc_netbios }}\\{{ ansible_user }}"
+        domain_password: "{{ ansible_password }}"
+        update_password: on_create
 
     - name: Wait for the reboot to complete if there was a change.
       wait_for_connection:
