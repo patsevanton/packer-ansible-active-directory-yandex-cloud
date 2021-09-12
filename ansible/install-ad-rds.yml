@@ -79,9 +79,16 @@
         timeout: 300
       when: create_domain is changed
 
+    # - name: Add Terminal Server License Servers to Network Service
+    #   ansible.windows.win_shell: |
+    #     net localgroup "Terminal Server License Servers" /Add 'Network Service'
+
     - name: Add Terminal Server License Servers to Network Service
-      ansible.windows.win_shell: |
-        net localgroup "Terminal Server License Servers" /Add 'Network Service'
+      ansible.windows.win_group_membership:
+        name: Terminal Server License Servers
+        members:
+          - Network Service
+        state: present
 
     - name: Set Licensing Mode
       ansible.windows.win_shell: |
