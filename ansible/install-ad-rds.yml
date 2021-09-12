@@ -100,16 +100,12 @@
         -PropertyType 'String'
 
     - name: Enable Remote Desktop Connections
-      vars:
-        ansible_user: DEMO\Administrator
       ansible.windows.win_shell: |
         Set-ItemProperty "HKLM:\SYSTEM\CurrentControlSet\Control\Terminal Server" -Name "fDenyTSConnections" -Value 00000000 -UseTransaction
         Set-ItemProperty "HKLM:\SYSTEM\CurrentControlSet\Control\Terminal Server" -Name "fSingleSessionPerUser" -Value 00000000 -UseTransaction
         Set-ItemProperty "HKLM:\SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp" -Name "UserAuthentication" -Value 00000000 -UseTransaction
 
     - name: Install Remote Desktop Session Host with sub features
-      vars:
-        ansible_user: DEMO\Administrator
       ansible.windows.win_feature:
         name: RDS-RD-Server
         state: present
@@ -122,8 +118,6 @@
       register: win_reboot
 
     - name: Wait for the reboot to complete if there was a change.
-      vars:
-        ansible_user: DEMO\Administrator
       wait_for_connection:
         sleep: 5
         delay: 30
