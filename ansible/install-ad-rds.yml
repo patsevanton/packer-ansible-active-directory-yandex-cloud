@@ -42,6 +42,28 @@
         safe_mode_password: "{{ ansible_password }}"
       register: create_domain
 
+    - name: Reboot if Create Domain
+      ansible.windows.win_reboot:
+      when: create_domain.reboot_required
+      register: win_reboot
+
+    - name: Wait for the reboot to complete if there was a change.
+      wait_for_connection:
+        sleep: 5
+        delay: 30
+        timeout: 300
+      when: win_reboot is changed
+
+    - name: ensure ADWS service is started
+      win_service:
+        name: ADWS
+        state: started
+      register: service_status_results
+
+    - name: Collect ADWS service status
+      debug:
+        msg: "{{ service_status_results }}"
+
     - name: Ensure the UserPrincipalName of {{ pdc_netbios }}\{{ ansible_user }} is set to {{ ansible_user }}@{{ pdc_domain }}
       win_domain_user:
         name: "{{ ansible_user }}"
