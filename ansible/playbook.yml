@@ -1,3 +1,16 @@
+---
 - hosts: all
+  vars:
+    ansible_winrm_server_cert_validation: ignore
+    pdc_administrator_password: ansible_password
+  pre_tasks:
+    - name: Install Remote-Desktop-Services with sub features and management tools
+      ansible.windows.win_feature:
+        name: Remote-Desktop-Services
+        state: present
+        include_sub_features: yes
+        include_management_tools: yes
+      register: install_remote_desktop_services
+    - debug: var=install_remote_desktop_services
   roles:
-     - { role: justin_p.pdc }
+    - justin_p.pdc
