@@ -48,10 +48,14 @@
       when: create_domain is changed
 
     - name: Add Terminal Server License Servers to Network Service
+      vars:
+        ansible_user: DEMO\Administrator
       ansible.windows.win_shell: |
         net localgroup "Terminal Server License Servers" /Add 'Network Service'
 
     - name: Set Licensing Mode
+      vars:
+        ansible_user: DEMO\Administrator
       ansible.windows.win_shell: |
         New-ItemProperty `
         -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services' `
@@ -60,6 +64,8 @@
         -PropertyType 'DWord'
 
     - name: Set License Servers
+      vars:
+        ansible_user: DEMO\Administrator
       ansible.windows.win_shell: |
         New-ItemProperty `
         -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services' `
@@ -68,12 +74,16 @@
         -PropertyType 'String'
 
     - name: Enable Remote Desktop Connections
+      vars:
+        ansible_user: DEMO\Administrator
       ansible.windows.win_shell: |
         Set-ItemProperty "HKLM:\SYSTEM\CurrentControlSet\Control\Terminal Server" -Name "fDenyTSConnections" -Value 00000000 -UseTransaction
         Set-ItemProperty "HKLM:\SYSTEM\CurrentControlSet\Control\Terminal Server" -Name "fSingleSessionPerUser" -Value 00000000 -UseTransaction
         Set-ItemProperty "HKLM:\SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp" -Name "UserAuthentication" -Value 00000000 -UseTransaction
 
     - name: Install Remote Desktop Session Host with sub features
+      vars:
+        ansible_user: DEMO\Administrator
       ansible.windows.win_feature:
         name: RDS-RD-Server
         state: present
@@ -81,11 +91,15 @@
       register: install_remote_desktop_services
 
     - name: Reboot if installing RDS-RD-Server feature requires it
+      vars:
+        ansible_user: DEMO\Administrator
       ansible.windows.win_reboot:
       when: install_remote_desktop_services.reboot_required
       register: win_reboot
 
     - name: Wait for the reboot to complete if there was a change.
+      vars:
+        ansible_user: DEMO\Administrator
       wait_for_connection:
         sleep: 5
         delay: 30
