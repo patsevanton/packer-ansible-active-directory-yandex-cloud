@@ -10,7 +10,7 @@ sudo apt install git jq python3-pip -y
 
 Устанавливаем ansible pywinrm pypsrp
 ```
-sudo pip3 install ansible pywinrm[credssp]
+sudo pip3 install ansible pywinrm
 ```
 Устанавливаем коллекцию ansible.windows и роль justin_p.pdc
 ```
