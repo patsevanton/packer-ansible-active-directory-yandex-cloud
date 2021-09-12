@@ -14,7 +14,7 @@
         profiles: [Domain, Public, Private]
         state: present
         enabled: yes
-    - name: Install RDS-RD-Server with sub features
+    - name: Install Remote Desktop Session Host with sub features
       ansible.windows.win_feature:
         name: RDS-RD-Server
         state: present
