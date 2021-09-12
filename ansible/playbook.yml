@@ -14,11 +14,10 @@
         profiles: [Domain, Public, Private]
         state: present
         enabled: yes
-    - name: Install Remote-Desktop-Services with sub features and management tools
+    - name: Install RDS-RD-Server with management tools
       ansible.windows.win_feature:
-        name: Remote-Desktop-Services
+        name: RDS-RD-Server
         state: present
-        include_management_tools: yes
       register: install_remote_desktop_services
     - debug: var=install_remote_desktop_services
   roles:
