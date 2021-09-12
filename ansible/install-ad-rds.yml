@@ -3,7 +3,7 @@
 
   vars:
     ansible_winrm_server_cert_validation: ignore
-    pdc_administrator_password: "{{ ansible_password }}""
+    pdc_administrator_password: "{{ ansible_password }}"
 
   tasks:
     - name: Print ansible_password
