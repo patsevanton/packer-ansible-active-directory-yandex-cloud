@@ -1,31 +1,60 @@
 ---
 - hosts: all
+
   vars:
     ansible_winrm_server_cert_validation: ignore
     pdc_administrator_password: ansible_password
+
   tasks:
     - name: Print ansible_password
       ansible.builtin.debug:
         msg: "{{ ansible_password }}"
+
     - name: Print pdc_administrator_password
       ansible.builtin.debug:
         msg: "{{ pdc_administrator_password }}"
-    - name: Firewall rule to allow RDP on TCP port 3389
-      community.windows.win_firewall_rule:
-        name: Remote Desktop
-        localport: 3389
-        action: allow
-        direction: in
-        protocol: tcp
-        profiles: [Domain, Public, Private]
-        state: present
-        enabled: yes
+
+    - name: Install Active Directory
+      ansible.windows.win_feature:
+          name: AD-Domain-Services
+          include_management_tools: yes
+          include_sub_features: yes
+          state: present
+      register: result
+
+    - name: Create Domain
+      ansible.windows.win_domain:
+        dns_domain_name: 'demo.lab'
+        safe_mode_password: '{{ ansible_password }}'
+      register: ad
+
+    - name: Reboot if installing AD-Domain-Services feature requires it
+      ansible.windows.win_reboot:
+      when: install_remote_desktop_services.reboot_required
+      register: win_reboot
+
+    - name: Wait for the reboot to complete if there was a change.
+      wait_for_connection:
+        sleep: 5
+        delay: 20
+        timeout: 300
+      when: win_reboot is changed
+
     - name: Install Remote Desktop Session Host with sub features
       ansible.windows.win_feature:
         name: RDS-RD-Server
         state: present
         include_sub_features: yes
       register: install_remote_desktop_services
-    - name: Print output install remote desktop services
-      ansible.builtin.debug:
-        msg: "{{ install_remote_desktop_services }}"
+
+    - name: Reboot if installing RDS-RD-Server feature requires it
+      ansible.windows.win_reboot:
+      when: install_remote_desktop_services.reboot_required
+      register: win_reboot
+
+    - name: Wait for the reboot to complete if there was a change.
+      wait_for_connection:
+        sleep: 5
+        delay: 20
+        timeout: 300
+      when: win_reboot is changed
