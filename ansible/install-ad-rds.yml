@@ -3,7 +3,7 @@
 
   vars:
     ansible_winrm_server_cert_validation: ignore
-    pdc_administrator_password: ansible_password
+    pdc_administrator_password: "{{ ansible_password }}""
 
   tasks:
     - name: Print ansible_password
@@ -20,17 +20,11 @@
           include_management_tools: yes
           include_sub_features: yes
           state: present
-      register: result
-
-    - name: Create Domain
-      ansible.windows.win_domain:
-        dns_domain_name: 'demo.lab'
-        safe_mode_password: '{{ ansible_password }}'
-      register: ad
+      register: install_ad_domain_services
 
     - name: Reboot if installing AD-Domain-Services feature requires it
       ansible.windows.win_reboot:
-      when: install_remote_desktop_services.reboot_required
+      when: install_ad_domain_services.reboot_required
       register: win_reboot
 
     - name: Wait for the reboot to complete if there was a change.
@@ -39,6 +33,11 @@
         delay: 20
         timeout: 300
       when: win_reboot is changed
+
+    - name: Create Domain
+      ansible.windows.win_domain:
+        dns_domain_name: 'demo.lab'
+        safe_mode_password: '{{ ansible_password }}'
 
     - name: Add Terminal Server License Servers to Network Service
       ansible.windows.win_shell: |
