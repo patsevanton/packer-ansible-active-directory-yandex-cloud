@@ -2,6 +2,6 @@
 - hosts: all
   vars:
     ansible_winrm_server_cert_validation: ignore
-    pdc_administrator_password: ansible_password
+    pdc_administrator_password: "{{ ansible_password }}"
   roles:
     - justin_p.pdc
