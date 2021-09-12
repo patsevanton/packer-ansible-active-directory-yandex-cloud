@@ -18,7 +18,6 @@
       ansible.windows.win_feature:
         name: Remote-Desktop-Services
         state: present
-        include_sub_features: yes
         include_management_tools: yes
       register: install_remote_desktop_services
     - debug: var=install_remote_desktop_services
