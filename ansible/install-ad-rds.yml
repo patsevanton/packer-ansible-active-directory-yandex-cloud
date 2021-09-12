@@ -86,19 +86,59 @@
           - Network Service
         state: present
 
+    # - name: Set Licensing Mode
+    #   ansible.windows.win_shell: |
+    #     New-ItemProperty -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services' -Name 'LicensingMode' -Value 4 -PropertyType 'DWord'
+
     - name: Set Licensing Mode
-      ansible.windows.win_shell: |
-        New-ItemProperty -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services' -Name 'LicensingMode' -Value 4 -PropertyType 'DWord'
+      win_regedit:
+        path: HKLM:\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services
+        name: LicensingMode
+        data: 4
+        type: dword
 
-    - name: Set License Servers
-      ansible.windows.win_shell: |
-        New-ItemProperty -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services' -Name 'LicenseServers' -Value 'localhost' -PropertyType 'String'
+    # - name: Set License Servers
+    #   ansible.windows.win_shell: |
+    #     New-ItemProperty -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services' -Name 'LicenseServers' -Value 'localhost' -PropertyType 'String'
 
-    - name: Enable Remote Desktop Connections
-      ansible.windows.win_shell: |
-        Set-ItemProperty 'HKLM:\SYSTEM\CurrentControlSet\Control\Terminal Server' -Name 'fDenyTSConnections' -Value 00000000 -UseTransaction
-        Set-ItemProperty 'HKLM:\SYSTEM\CurrentControlSet\Control\Terminal Server' -Name 'fSingleSessionPerUser' -Value 00000000 -UseTransaction
-        Set-ItemProperty 'HKLM:\SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp' -Name 'UserAuthentication' -Value 00000000 -UseTransaction
+    - name:  Set License Servers
+      win_regedit:
+        path: HKLM:\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services
+        name: LicenseServers
+        data: localhost
+        type: String
+
+    # - name: Enable Remote Desktop
+    #   ansible.windows.win_shell: |
+    #     Set-ItemProperty 'HKLM:\SYSTEM\CurrentControlSet\Control\Terminal Server' -Name 'fDenyTSConnections' -Value 0
+    #     Set-ItemProperty 'HKLM:\SYSTEM\CurrentControlSet\Control\Terminal Server' -Name 'fSingleSessionPerUser' -Value 0
+    #     Set-ItemProperty 'HKLM:\SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp' -Name 'UserAuthentication' -Value 0
+
+    - name: Enable Remote Desktop
+      win_regedit:
+        path: HKLM:\SYSTEM\CurrentControlSet\Control\Terminal Server
+        name: fDenyTSConnections
+        data: 0
+        type: dword
+
+    - name: Allow Multiple RDP Sessions
+      win_regedit:
+        path: HKLM:\SYSTEM\CurrentControlSet\Control\Terminal Server
+        name: fSingleSessionPerUser
+        data: 0
+        type: dword
+
+    - name: Disable Network Level Authentication
+      win_regedit:
+        path: HKLM:\SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp
+        name: UserAuthentication
+        data: 0
+        type: dword
+
+    # REM Disable the Network Level Authentication
+    # reg add "HKLM\SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp" /v SecurityLayer /t REG_DWORD /d 0 /f
+    # reg add "HKLM\SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp" /v UserAuthentication /t REG_DWORD /d 0 /f
+    # reg add "HKLM\SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp" /v fAllowSecProtocolNegotiation /t REG_DWORD /d 0 /f
 
     - name: Install Remote Desktop Session Host with sub features
       ansible.windows.win_feature:
