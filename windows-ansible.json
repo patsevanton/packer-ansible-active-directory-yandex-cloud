@@ -67,6 +67,18 @@
     {
       "type": "powershell",
       "inline": [
+        "net localgroup \"Terminal Server License Servers\" /Add 'Network Service'"
+      ]
+    },
+    {
+      "type": "powershell",
+      "scripts": [
+          "{{template_dir}}/setting-rds.ps1"
+      ]
+    },
+    {
+      "type": "powershell",
+      "inline": [
         "foreach ($Assembly in ([AppDomain]::CurrentDomain.GetAssemblies() | Where-Object Location | Select-Object -ExpandProperty Location)) { & (Join-path ([Runtime.InteropServices.RuntimeEnvironment]::GetRuntimeDirectory()) 'ngen.exe') install $Assembly }"
       ]
     },

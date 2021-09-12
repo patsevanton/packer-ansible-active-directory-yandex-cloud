@@ -3,31 +3,5 @@
   vars:
     ansible_winrm_server_cert_validation: ignore
     pdc_administrator_password: ansible_password
-  pre_tasks:
-    - name: Print ansible_password
-      ansible.builtin.debug:
-        msg: "{{ ansible_password }}"
-    - name: Print pdc_administrator_password
-      ansible.builtin.debug:
-        msg: "{{ pdc_administrator_password }}"
-    - name: Firewall rule to allow RDP on TCP port 3389
-      community.windows.win_firewall_rule:
-        name: Remote Desktop
-        localport: 3389
-        action: allow
-        direction: in
-        protocol: tcp
-        profiles: [Domain, Public, Private]
-        state: present
-        enabled: yes
-    - name: Install Remote Desktop Session Host with sub features
-      ansible.windows.win_feature:
-        name: RDS-RD-Server
-        state: present
-        include_sub_features: yes
-      register: install_remote_desktop_services
-    - name: Print output install remote desktop services
-      ansible.builtin.debug:
-        msg: "{{ install_remote_desktop_services }}"
   roles:
     - justin_p.pdc
