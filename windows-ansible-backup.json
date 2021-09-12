@@ -1,0 +1,82 @@
+{
+  "variables": {
+    "service_account_key_file": "service-account.json",
+    "source_image_family": "windows-2019-gvlk",
+    "platform_id": "standard-v2",
+    "instance_name": "windows-active-directory",
+    "instance_cores": "4",
+    "instance_mem_gb": "8",
+    "disk_size_gb": "50",
+    "disk_type": "network-ssd",
+    "use_ipv4_nat": "true",
+    "subnet_id": "",
+    "image_name": "windows-active-directory",
+    "win_username": "Administrator"
+  },
+  "builders": [
+    {
+      "type": "yandex",
+      "folder_id": "{{user `folder_id`}}",
+      "service_account_key_file": "{{template_dir}}/{{user `service_account_key_file`}}",
+      "source_image_family": "{{user `source_image_family`}}",
+      "instance_name": "{{user `instance_name`}}",
+      "instance_cores": "{{user `instance_cores`}}",
+      "instance_mem_gb": "{{user `instance_mem_gb`}}",
+      "disk_size_gb": "{{user `disk_size_gb`}}",
+      "disk_type": "{{user `disk_type`}}",
+      "use_ipv4_nat": "{{user `use_ipv4_nat`}}",
+      "subnet_id": "{{user `subnet_id`}}",
+      "image_name": "{{user `image_name`}}-{{isotime | clean_resource_name}}",
+      "metadata": {
+        "user-data": "#ps1\nnet user Administrator {{user `password`}}\nls \"C:\\Program Files\\Cloudbase Solutions\\Cloudbase-Init\\LocalScripts\" | rm\nRemove-Item -Path WSMan:\\Localhost\\listener\\listener* -Recurse\nRemove-Item -Path Cert:\\LocalMachine\\My\\*\n$DnsName = Invoke-RestMethod -Headers @{\"Metadata-Flavor\"=\"Google\"} \"http://169.254.169.254/computeMetadata/v1/instance/hostname\"\n$HostName = Invoke-RestMethod -Headers @{\"Metadata-Flavor\"=\"Google\"} \"http://169.254.169.254/computeMetadata/v1/instance/name\"\n$Certificate = New-SelfSignedCertificate -CertStoreLocation Cert:\\LocalMachine\\My -DnsName $DnsName -Subject $HostName\nNew-Item -Path WSMan:\\LocalHost\\Listener -Transport HTTP -Address * -Force\nNew-Item -Path WSMan:\\LocalHost\\Listener -Transport HTTPS -Address * -Force -HostName $HostName -CertificateThumbPrint $Certificate.Thumbprint\n& netsh advfirewall firewall add rule name=\"WINRM-HTTPS-In-TCP\" protocol=TCP dir=in localport=5986 action=allow profile=any"
+      },
+      "communicator": "winrm",
+      "winrm_username": "{{user `win_username`}}",
+      "winrm_password": "{{user `password`}}",
+      "winrm_use_ssl": "true",
+      "winrm_insecure": "true",
+      "winrm_use_ntlm": "true"
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "file",
+      "source": "{{template_dir}}/setup_complete/",
+      "destination": "C:\\Windows\\Setup\\Scripts\\"
+    },
+    {
+      "type": "powershell",
+      "scripts": [
+          "{{template_dir}}/ConfigureRemotingForAnsible.ps1"
+      ]
+    },
+   {
+       "type": "ansible",
+       "user": "{{user `win_username`}}",
+       "use_proxy": false,
+       "playbook_file": "{{template_dir}}/ansible/playbook.yml",
+       "ansible_env_vars": [ "ANSIBLE_CONFIG=ansible/ansible.cfg" ],
+       "extra_arguments": [
+        "-e",
+        "ansible_winrm_server_cert_validation=ignore pdc_administrator_password={{user `password`}}"
+       ]
+   },
+    {
+      "type": "windows-restart"
+    },
+    {
+      "type": "powershell",
+      "inline": [
+        "foreach ($Assembly in ([AppDomain]::CurrentDomain.GetAssemblies() | Where-Object Location | Select-Object -ExpandProperty Location)) { & (Join-path ([Runtime.InteropServices.RuntimeEnvironment]::GetRuntimeDirectory()) 'ngen.exe') install $Assembly }"
+      ]
+    },
+    {
+      "type": "powershell",
+      "inline": [
+        "& $env:SystemRoot\\System32\\Sysprep\\Sysprep.exe /oobe /generalize /quiet /quit /unattend:\"C:\\Program Files\\Cloudbase Solutions\\Cloudbase-Init\\conf\\Unattend.xml\"",
+        "while($true) { $imageState = Get-ItemProperty HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Setup\\State | Select ImageState; if($imageState.ImageState -ne 'IMAGE_STATE_GENERALIZE_RESEAL_TO_OOBE') { Write-Output $imageState.ImageState; Start-Sleep -s 10  } else { break } }",
+        "Stop-Computer -Force"
+      ]
+    }
+  ]
+}
