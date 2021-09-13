@@ -66,11 +66,10 @@ SERVICE_ACCOUNT_ID=$(yc iam service-account get --name <имя пользова�
 yc resource-manager folder add-access-binding <folder_id> --role admin --subject serviceAccount:$SERVICE_ACCOUNT_ID
 ```
 
-Заполните файл windows-ansible.json
+Заполняем файл credentials.json
 ```
     "folder_id": "<folder_id>",
-    "service_account_key_file": "service-account.json",
-    "password": "<Пароль для Windows>",
+    "password": "<Пароль для Windows>"
 ```
 
 Заполняем credentials.json
