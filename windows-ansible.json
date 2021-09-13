@@ -54,7 +54,7 @@
        "type": "ansible",
        "user": "{{user `win_username`}}",
        "use_proxy": false,
-       "playbook_file": "{{template_dir}}/ansible/playbook.yml",
+       "playbook_file": "{{template_dir}}/ansible/install-rds.yml",
        "ansible_env_vars": [ "ANSIBLE_CONFIG=ansible/ansible.cfg" ],
        "extra_arguments": [
         "-e",
@@ -63,29 +63,6 @@
    },
     {
       "type": "windows-restart"
-    },
-    {
-      "type": "powershell",
-      "inline": [
-        "net localgroup \"Terminal Server License Servers\" /Add 'Network Service'"
-      ]
-    },
-    {
-      "type": "powershell",
-      "scripts": [
-          "{{template_dir}}/setting-rds.ps1"
-      ]
-    },
-    {
-      "type": "ansible",
-      "user": "{{user `win_username`}}",
-      "use_proxy": false,
-      "playbook_file": "{{template_dir}}/ansible/install-rds.yml",
-      "ansible_env_vars": [ "ANSIBLE_CONFIG=ansible/ansible.cfg" ],
-      "extra_arguments": [
-      "-e",
-      "pdc_administrator_password={{user `password`}}"
-      ]
     },
     {
       "type": "powershell",
