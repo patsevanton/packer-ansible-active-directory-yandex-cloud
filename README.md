@@ -19,6 +19,7 @@ sudo pip3 install ansible pywinrm
 ```
 ansible-galaxy collection install ansible.windows
 ansible-galaxy install justin_p.pdc
+ansible-galaxy install jborean93.win_openssh
 ```
 
 Для настройки Primary Domain Controller и Active Directory на Windows Server используется ansible роль https://github.com/justin-p/ansible-role-pdc
