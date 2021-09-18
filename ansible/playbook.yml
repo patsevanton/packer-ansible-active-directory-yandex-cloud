@@ -5,3 +5,4 @@
     pdc_administrator_password: "{{ ansible_password }}"
   roles:
     - justin_p.pdc
+    - jborean93.win_openssh
