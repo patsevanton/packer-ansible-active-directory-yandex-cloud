@@ -104,8 +104,12 @@ net user Administrator {{user `password`}}
 ls \"C:\\Program Files\\Cloudbase Solutions\\Cloudbase-Init\\LocalScripts\" | rm
 ```
 
+Удаляет доверенные хосты службы WS-Management по адресу \\Localhost\\listener\\listener*
 ```
 Remove-Item -Path WSMan:\\Localhost\\listener\\listener* -Recurse
+```
+
+```
 Remove-Item -Path Cert:\\LocalMachine\\My\\*
 $DnsName = Invoke-RestMethod -Headers @{\"Metadata-Flavor\"=\"Google\"} \"http://169.254.169.254/computeMetadata/v1/instance/hostname\"
 $HostName = Invoke-RestMethod -Headers @{\"Metadata-Flavor\"=\"Google\"} \"http://169.254.169.254/computeMetadata/v1/instance/name\"
