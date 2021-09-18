@@ -1,18 +1,21 @@
-Сборка образа Active Directory c помощью packer и ansible в яндекс-облаке
+### Сборка образа Active Directory c помощью packer и ansible в яндекс-облаке
 
 Source code from https://github.com/yandex-cloud/examples/tree/master/packer-ansible-windows
 
-Установка необходимых пакетов
+#### Установка необходимых пакетов
+
 ```
 sudo apt update
 sudo apt install git jq python3-pip -y
 ```
 
-Устанавливаем ansible pywinrm pypsrp
+#### Устанавливаем ansible pywinrm pypsrp
+
 ```
 sudo pip3 install ansible pywinrm
 ```
-Устанавливаем коллекцию ansible.windows и роль justin_p.pdc
+#### Устанавливаем коллекцию ansible.windows и роль justin_p.pdc
+
 ```
 ansible-galaxy collection install ansible.windows
 ansible-galaxy install justin_p.pdc
@@ -20,37 +23,45 @@ ansible-galaxy install justin_p.pdc
 
 Для настройки Primary Domain Controller и Active Directory на Windows Server используется ansible роль https://github.com/justin-p/ansible-role-pdc
 
-Установка Packer.
+#### Установка Packer.
+
 Необходимо установить Packer по инструкции с официального сайта https://learn.hashicorp.com/tutorials/packer/get-started-install-cli
 
-Установка Yandex.Cloud CLI
+#### Установка Yandex.Cloud CLI
+
 https://cloud.yandex.com/en/docs/cli/quickstart#install
+
 ```
 curl https://storage.yandexcloud.net/yandexcloud-yc/install.sh | bash
 ```
 
-Загружаем обновленные настройки .bashrc без выхода из системы
+#### Загружаем обновленные настройки .bashrc без выхода из системы
+
 ```
 source ~/.bashrc
 ```
 
-Инициализация Yandex.Cloud CLI
+#### Инициализация Yandex.Cloud CLI
+
 ```
 yc init
 ```
 
-Clone repo
+#### Клонируем репозиторий с исходным кодом
+
 ```
 git clone https://github.com/patsevanton/packer-ansible-active-directory-yandex-cloud.git
 cd packer-ansible-active-directory-yandex-cloud
 ```
 
-Скачиваем ConfigureRemotingForAnsible.ps1
+#### Скачиваем ConfigureRemotingForAnsible.ps1
+
 ```
 wget https://raw.githubusercontent.com/ansible/ansible/devel/examples/scripts/ConfigureRemotingForAnsible.ps1
 ```
 
-Создайте сервисный аккаунт и передайте его идентификатор в переменную окружения, выполнив команды:
+#### Создайте сервисный аккаунт и передайте его идентификатор в переменную окружения, выполнив команды:
+
 ```
 yc iam service-account create --name <имя пользователя>
 yc iam key create --service-account-name <имя пользователя> -o service-account.json
@@ -72,14 +83,18 @@ yc resource-manager folder add-access-binding <folder_id> --role admin --subject
     "password": "<Пароль для Windows>"
 ```
 
-Заполняем credentials.json
+#### Заполняем credentials.json
 
-Запускаем сборку образа
+#### Запускаем сборку образа
+
 ```
 packer build -var-file credentials.json windows-ansible.json
 ```
 
+### Тестирование и отладка
+
 При сборке образа сначала выполняется скрипты, описанные в user-data:
+
 ```
 #ps1
 net user Administrator {{user `password`}}
@@ -110,7 +125,7 @@ New-Item -Path WSMan:\\LocalHost\\Listener -Transport HTTPS -Address * -Force -H
 ansible windows -i ansible/test-inventory -m win_ping
 ```
 
-Запускаем установку без packer
+Запускаем настройку Primary Domain Controller с Active Directory Domain без Packer
 ```
 ansible-playbook -i ansible/test-inventory ansible/playbook.yml
 ```
