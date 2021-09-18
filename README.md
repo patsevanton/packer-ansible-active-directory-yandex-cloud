@@ -94,11 +94,16 @@ packer build -var-file credentials.json windows-ansible.json
 ### Тестирование и отладка
 
 При сборке образа сначала выполняется скрипты, описанные в user-data:
-
+Установка пароля пользователя Administrator
 ```
-#ps1
 net user Administrator {{user `password`}}
+```
+
+Удаление скриптов из директории C:\Program Files\Cloudbase Solutions\Cloudbase-Init\LocalScripts\
+```
 ls \"C:\\Program Files\\Cloudbase Solutions\\Cloudbase-Init\\LocalScripts\" | rm
+```
+
 Remove-Item -Path WSMan:\\Localhost\\listener\\listener* -Recurse
 Remove-Item -Path Cert:\\LocalMachine\\My\\*
 $DnsName = Invoke-RestMethod -Headers @{\"Metadata-Flavor\"=\"Google\"} \"http://169.254.169.254/computeMetadata/v1/instance/hostname\"
