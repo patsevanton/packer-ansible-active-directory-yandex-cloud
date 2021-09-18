@@ -110,6 +110,11 @@ New-Item -Path WSMan:\\LocalHost\\Listener -Transport HTTPS -Address * -Force -H
 ansible windows -i ansible/test-inventory -m win_ping
 ```
 
+Запускаем установку без packer
+```
+ansible-playbook -i ansible/test-inventory ansible/playbook.yml
+```
+
 Ошибки:
 
 Если не запустить ConfigureRemotingForAnsible.ps1 на Windows, то будет такая ошибка
