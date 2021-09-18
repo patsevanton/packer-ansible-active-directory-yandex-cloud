@@ -109,14 +109,39 @@ ls \"C:\\Program Files\\Cloudbase Solutions\\Cloudbase-Init\\LocalScripts\" | rm
 Remove-Item -Path WSMan:\\Localhost\\listener\\listener* -Recurse
 ```
 
+Удаляет сертификаты с локального сервера
 ```
 Remove-Item -Path Cert:\\LocalMachine\\My\\*
+```
+
+Получает DNS имя из службы метаданных
+```
 $DnsName = Invoke-RestMethod -Headers @{\"Metadata-Flavor\"=\"Google\"} \"http://169.254.169.254/computeMetadata/v1/instance/hostname\"
+```
+
+Получает hostname имя из службы метаданных
+```
 $HostName = Invoke-RestMethod -Headers @{\"Metadata-Flavor\"=\"Google\"} \"http://169.254.169.254/computeMetadata/v1/instance/name\"
+```
+
+Получает сертификат из службы метаданных
+```
 $Certificate = New-SelfSignedCertificate -CertStoreLocation Cert:\\LocalMachine\\My -DnsName $DnsName -Subject $HostName
+```
+
+Создает новое значение `HTTP` в службе WS-Management по адресу \\LocalHost\\Listener c параметром `Address *`
+```
 New-Item -Path WSMan:\\LocalHost\\Listener -Transport HTTP -Address * -Force
+```
+
+Создает новое значение `HTTPS` в службе WS-Management по адресу \\LocalHost\\Listener c параметром `Address *`, HostName и Certificate
+```
 New-Item -Path WSMan:\\LocalHost\\Listener -Transport HTTPS -Address * -Force -HostName $HostName -CertificateThumbPrint $Certificate.Thumbprint
-& netsh advfirewall firewall add rule name=\"WINRM-HTTPS-In-TCP\" protocol=TCP dir=in localport=5986 action=allow profile=any
+```
+
+Добавляет в firewall правило разрешающее трафик на порт 5986
+```
+netsh advfirewall firewall add rule name=\"WINRM-HTTPS-In-TCP\" protocol=TCP dir=in localport=5986 action=allow profile=any
 ```
 
 Для отладки добавляем конструкцию, подключаемся по RDP и пробуем подключится по ansible напрямую.
