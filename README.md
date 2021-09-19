@@ -1,4 +1,4 @@
-### Сборка образа Active Directory c помощью packer и ansible в яндекс-облаке
+### Сборка образа Windows с обновлениями c помощью packer и ansible в яндекс-облаке
 
 Source code from https://github.com/yandex-cloud/examples/tree/master/packer-ansible-windows
 
