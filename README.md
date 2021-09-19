@@ -192,5 +192,4 @@ default ansible_host=xxx.xxx.xxx.xxx ansible_connection=winrm ansible_winrm_tran
 ```
 
 
-Отладка используя winrm 
-https://vk9-sec.com/connect-to-windows-remote-management-winrm-using-evil-winrm/
+![](https://habrastorage.org/webt/bi/rd/ft/birdft5yig6fylfbg3bn4t-4tas.png)
