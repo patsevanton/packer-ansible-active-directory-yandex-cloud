@@ -145,7 +145,14 @@ New-Item -Path WSMan:\\LocalHost\\Listener -Transport HTTPS -Address * -Force -H
 netsh advfirewall firewall add rule name=\"WINRM-HTTPS-In-TCP\" protocol=TCP dir=in localport=5986 action=allow profile=any
 ```
 
-Для отладки добавляем конструкцию, подключаемся по RDP и пробуем подключится по ansible напрямую.
+Для отладки запускаем packer с опцией debug
+
+```
+packer build -debug -var-file credentials.json windows-ansible.json
+```
+
+Но так как опция `-debug` требует потверждения на каждый шаг, для отладки добавляем конструкцию, подключаемся по RDP и пробуем подключится по ansible напрямую.
+
 ```
 {
     "type": "shell",
@@ -206,4 +213,3 @@ default ansible_host=xxx.xxx.xxx.xxx ansible_connection=winrm ansible_winrm_tran
 ```
 
 ![](https://habrastorage.org/webt/yp/tm/ik/yptmiktn4i2qoystu4_deevbkuc.png)
-
