@@ -9,7 +9,7 @@ sudo apt update
 sudo apt install git jq python3-pip -y
 ```
 
-#### Устанавливаем ansible pywinrm pypsrp
+#### Устанавливаем ansible pywinrm
 
 ```
 sudo pip3 install ansible pywinrm
