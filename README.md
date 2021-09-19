@@ -1,6 +1,6 @@
 ### Сборка образа Windows Server 2019 с обновлениями c помощью packer и ansible в Yandex Cloud
 
-В этом посте уже есть готовый работе репозиторий, описаны ошибки, которые вы можете получить, описана ошибка при сборке образа packer, если настраивать Active Directory.
+В этом посте уже есть готовый работе репозиторий, описаны ошибки, которые вы можете получить.
 
 Исходный код здесь https://github.com/yandex-cloud/examples/tree/master/packer-ansible-windows
 
@@ -190,8 +190,6 @@ winrm.exceptions.InvalidCredentialsError: the specified credentials were rejecte
 ```
 default ansible_host=xxx.xxx.xxx.xxx ansible_connection=winrm ansible_winrm_transport=basic ansible_shell_type=powershell ansible_user=Administrator ansible_port=5986
 ```
-
-
 
 
 ### Тестирование сборки Windows c Active Directory
