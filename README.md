@@ -1,6 +1,8 @@
-### Сборка образа Windows с обновлениями c помощью packer и ansible в яндекс-облаке
+### Сборка образа Windows Server 2019 с обновлениями c помощью packer и ansible в Yandex Cloud
 
-Source code from https://github.com/yandex-cloud/examples/tree/master/packer-ansible-windows
+В этом посте уже есть готовый работе репозиторий, описаны ошибки, которые вы можете получить, описана ошибка при сборке образа packer, если настраивать Active Directory.
+
+Исходный код здесь https://github.com/yandex-cloud/examples/tree/master/packer-ansible-windows
 
 #### Установка необходимых пакетов
 
@@ -14,15 +16,11 @@ sudo apt install git jq python3-pip -y
 ```
 sudo pip3 install ansible pywinrm
 ```
-#### Устанавливаем коллекцию ansible.windows и роль justin_p.pdc
+#### Устанавливаем коллекцию ansible.windows
 
 ```
 ansible-galaxy collection install ansible.windows
-ansible-galaxy install justin_p.pdc
-ansible-galaxy install jborean93.win_openssh
 ```
-
-Для настройки Primary Domain Controller и Active Directory на Windows Server используется ansible роль https://github.com/justin-p/ansible-role-pdc
 
 #### Установка Packer.
 
@@ -92,6 +90,8 @@ yc resource-manager folder add-access-binding <folder_id> --role admin --subject
 packer build -var-file credentials.json windows-ansible.json
 ```
 
+Готовый образ можно будет найти в сервисе **Compute Cloud** на вкладке **Образы**
+
 ### Тестирование и отладка
 
 При сборке образа сначала выполняется скрипты, описанные в user-data:
@@ -155,13 +155,13 @@ netsh advfirewall firewall add rule name=\"WINRM-HTTPS-In-TCP\" protocol=TCP dir
 },
 ```
 
-Отредатируем файл ansible/inventory. Проверим win_ping.
+Отредактируем файл ansible/inventory. Проверим win_ping.
 
 ```
 ansible windows -i ansible/test-inventory -m win_ping
 ```
 
-Запускаем настройку Primary Domain Controller с Active Directory Domain без Packer
+Тестируем установку обновлений Windows без Packer
 ```
 ansible-playbook -i ansible/test-inventory ansible/playbook.yml
 ```
@@ -188,8 +188,24 @@ winrm.exceptions.InvalidCredentialsError: the specified credentials were rejecte
 
 Временный ansible inventory с именем /tmp/packer-provisioner-ansiblexxxx будет иметь вот такой вид:
 ```
-default ansible_host=xxx.xxx.xxx.xxx ansible_connection=winrm ansible_winrm_transport=basic ansible_shell_type=powershell ansible_user=apatsev ansible_port=5986
+default ansible_host=xxx.xxx.xxx.xxx ansible_connection=winrm ansible_winrm_transport=basic ansible_shell_type=powershell ansible_user=Administrator ansible_port=5986
 ```
 
 
-![](https://habrastorage.org/webt/bi/rd/ft/birdft5yig6fylfbg3bn4t-4tas.png)
+
+
+### Тестирование сборки Windows c Active Directory
+
+Так же тестировал сборку Windows c Active Directory, используя Galaxy роль `justin_p.pdc`, но при запуске нового instance из собранного образа получал ошибку.
+
+```
+2021-09-18 19:34:31, Error SYSPRP ActionPlatform::LaunchModule: Failure occurred while executing 'CryptoSysPrep_Specialize' from C:\Windows\system32\capisp.dll; dwRet = 0x32
+2021-09-18 19:34:31, Error SYSPRP SysprepSession::ExecuteAction: Failed during sysprepModule operation; dwRet = 0x32
+2021-09-18 19:34:31, Error SYSPRP SysprepSession::ExecuteInternal: Error in executing action for Microsoft-Windows-Cryptography; dwRet = 0x32
+2021-09-18 19:34:31, Error SYSPRP SysprepSession::Execute: Error in executing actions from C:\Windows\System32\Sysprep\ActionFiles\Specialize. xml; dwRet = 0x32
+2021-09-18 19:34:31, Error SYSPRP RunPlatformActions:Failed while executing Sysprep session actions; dwRet = 0x32
+2021-09-18 19:34:31, Error [0x060435] IBS Callback_Specialize: An error occurred while either deciding if we need to specialize or while specializing; dwRet = 0x32
+```
+
+![](https://habrastorage.org/webt/yp/tm/ik/yptmiktn4i2qoystu4_deevbkuc.png)
+
