@@ -59,7 +59,7 @@ cd packer-windows-with-update-ansible-yandex-cloud
 wget https://raw.githubusercontent.com/ansible/ansible/devel/examples/scripts/ConfigureRemotingForAnsible.ps1
 ```
 
-#### Создайте сервисный аккаунт и передайте его идентификатор в переменную окружения, выполнив команды:
+#### Создайте сервисный аккаунт и передайте его идентификатор в переменную окружения, выполнив команды
 
 ```
 yc iam service-account create --name <имя пользователя>
@@ -76,7 +76,7 @@ SERVICE_ACCOUNT_ID=$(yc iam service-account get --name <имя пользова�
 yc resource-manager folder add-access-binding <folder_id> --role admin --subject serviceAccount:$SERVICE_ACCOUNT_ID
 ```
 
-Заполняем файл credentials.json
+Заполняем файл credentials.json.
 ```
     "folder_id": "<folder_id>",
     "password": "<Пароль для Windows>"
@@ -90,7 +90,18 @@ yc resource-manager folder add-access-binding <folder_id> --role admin --subject
 packer build -var-file credentials.json windows-ansible.json
 ```
 
-Готовый образ можно будет найти в сервисе **Compute Cloud** на вкладке **Образы**
+Готовый образ можно будет найти в сервисе **Compute Cloud** на вкладке **Образы**.
+
+Через Yandex Cloud CLI будет виден вот так.
+
+```
+yc compute image list
++----------------------+-------------------------------------+--------+----------------------+--------+
+|          ID          |                NAME                 | FAMILY |     PRODUCT IDS      | STATUS |
++----------------------+-------------------------------------+--------+----------------------+--------+
+| fd88ak25ivc8rn1e4bn7 | windows-server-2021-09-20t04-47-57z |        | f2e01pla7dr1fpbeihp9 | READY  |
++----------------------+-------------------------------------+--------+----------------------+--------+
+```
 
 ### Описание кода в user-data
 
