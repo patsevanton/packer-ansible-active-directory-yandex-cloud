@@ -9,7 +9,7 @@
 
 Более подробно можете прочитать про packer [здесь](https://xakep.ru/2014/10/08/using-packer/).
 
-В процессе сборки запускается ansible, который устанавливает обновления Windows. С помощью ansible гораздо проще управлять установкой приложений, настройкой Windows чем Powershell. Подробнее про использование ansible и windows [здесь](https://habr.com/ru/company/veeam/blog/455604/).
+В процессе сборки запускается [Ansible](https://github.com/ansible/ansible), который устанавливает обновления Windows. С помощью ansible гораздо проще управлять установкой приложений, настройкой Windows чем Powershell. Подробнее про использование ansible и windows [здесь](https://habr.com/ru/company/veeam/blog/455604/).
 
 В посте описаны ошибки, которые вы можете получить, и их решение.
 
