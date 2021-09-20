@@ -2,7 +2,7 @@
 
 В этом посте уже есть готовый работе репозиторий, описаны ошибки, которые вы можете получить.
 
-Исходный код здесь https://github.com/yandex-cloud/examples/tree/master/packer-ansible-windows
+Исходный код здесь https://github.com/patsevanton/packer-windows-with-update-ansible-yandex-cloud
 
 #### Установка необходимых пакетов
 
@@ -49,7 +49,7 @@ yc init
 #### Клонируем репозиторий с исходным кодом
 
 ```
-git clone https://github.com/patsevanton/packer-ansible-active-directory-yandex-cloud.git
+git clone https://github.com/patsevanton/packer-windows-with-update-ansible-yandex-cloud.git
 cd packer-ansible-active-directory-yandex-cloud
 ```
 
