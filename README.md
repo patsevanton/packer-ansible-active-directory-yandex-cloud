@@ -92,7 +92,7 @@ packer build -var-file credentials.json windows-ansible.json
 
 Готовый образ можно будет найти в сервисе **Compute Cloud** на вкладке **Образы**
 
-### Тестирование и отладка
+### Описание кода в user-data
 
 При сборке образа сначала выполняется скрипты, описанные в user-data:
 Установка пароля пользователя Administrator
