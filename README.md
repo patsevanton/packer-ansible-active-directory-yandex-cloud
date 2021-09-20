@@ -145,14 +145,14 @@ New-Item -Path WSMan:\\LocalHost\\Listener -Transport HTTPS -Address * -Force -H
 netsh advfirewall firewall add rule name=\"WINRM-HTTPS-In-TCP\" protocol=TCP dir=in localport=5986 action=allow profile=any
 ```
 
+### Тестирование и отладка
 Для отладки запускаем packer с опцией debug
 
 ```
 packer build -debug -var-file credentials.json windows-ansible.json
 ```
 
-Но так как опция `-debug` требует потверждения на каждый шаг, для отладки добавляем конструкцию, подключаемся по RDP и пробуем подключится по ansible напрямую.
-
+Но так как опция `-debug` требует потверждения на каждый шаг, для отладки добавляем конструкцию после шага, который нужно отладить, например, после запуска ansible.
 ```
 {
     "type": "shell",
@@ -173,7 +173,7 @@ ansible windows -i ansible/test-inventory -m win_ping
 ansible-playbook -i ansible/test-inventory ansible/playbook.yml
 ```
 
-Ошибки:
+### Ошибки
 
 Если не запустить ConfigureRemotingForAnsible.ps1 на Windows, то будет такая ошибка
 ```
