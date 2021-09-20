@@ -57,8 +57,7 @@
        "playbook_file": "{{template_dir}}/ansible/install_security_update.yml",
        "ansible_env_vars": [ "ANSIBLE_CONFIG=ansible/ansible.cfg" ],
        "extra_arguments": [
-        "-e",
-        "pdc_administrator_password={{user `password`}}"
+        "-v"
        ]
    },
     {
