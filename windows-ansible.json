@@ -3,14 +3,14 @@
     "service_account_key_file": "service-account.json",
     "source_image_family": "windows-2019-gvlk",
     "platform_id": "standard-v2",
-    "instance_name": "windows-active-directory",
+    "instance_name": "windows-server",
     "instance_cores": "4",
     "instance_mem_gb": "8",
     "disk_size_gb": "50",
     "disk_type": "network-ssd",
     "use_ipv4_nat": "true",
     "subnet_id": "",
-    "image_name": "windows-active-directory",
+    "image_name": "windows-server",
     "win_username": "Administrator"
   },
   "builders": [

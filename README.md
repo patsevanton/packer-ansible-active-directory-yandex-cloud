@@ -50,7 +50,7 @@ yc init
 
 ```
 git clone https://github.com/patsevanton/packer-windows-with-update-ansible-yandex-cloud.git
-cd packer-ansible-active-directory-yandex-cloud
+cd packer-windows-with-update-ansible-yandex-cloud
 ```
 
 #### Скачиваем ConfigureRemotingForAnsible.ps1
